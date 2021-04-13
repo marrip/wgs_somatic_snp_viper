@@ -1,0 +1,7 @@
+samples: "samples.tsv"
+
+reference:
+  fasta: ""
+
+tools:
+  gatk: "docker://broadinstitute/gatk:4.2.0.0"
