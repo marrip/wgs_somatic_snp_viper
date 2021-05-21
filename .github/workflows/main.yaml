@@ -1,0 +1,56 @@
+name: Lint and Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Linting
+        uses: snakemake/snakemake-github-action@v1.17.0
+        with:
+          directory: ".tests/integration"
+          snakefile: "Snakefile"
+          args: "--lint"
+  snakefmt:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Lint Code Base
+        uses: github/super-linter@v3 
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ALIDATE_SNAKEMAKE_SNAKEFMT: true
+          OUTPUT_FOLDER: .github/linters/report
+  test:
+    name: Test workflow
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Add conda to system path
+      run: |
+        echo $CONDA/bin >> $GITHUB_PATH
+    - name: Install dependencies
+      run: |
+        conda install -c conda-forge mamba
+    - name: Integration test
+      working-directory: .tests/integration
+      run: |
+        mamba install -c conda-forge -c bioconda snakemake singularity
+        snakemake -s ../../Snakefile -j 1 --use-singularity
