@@ -29,15 +29,16 @@ wildcard_constraints:
 ### Functions
 
 
-def compile_output_list():
+def compile_output_list(wildcards):
     output_list = []
     files = {
         "mutect2": ["vcf",],
+        "vardict": ["vcf",],
     }
     for key in files.keys():
         output_list = output_list + expand(
             "analysis_output/{sample}/{tool}/{sample}.{ext}",
-            sample=samples.index,
+            sample=wildcards.sample,
             tool=key,
             ext=files[key],
         )
