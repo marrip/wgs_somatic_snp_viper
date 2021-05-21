@@ -9,14 +9,15 @@ min_version("5.32.0")
 
 configfile: "config.yaml"
 
-#validate(config, schema="../schemas/config.schema.yaml")
+
+validate(config, schema="../schemas/config.schema.yaml")
 
 
 ### Read and validate samples file
 
 samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
 
-#validate(samples, schema="../schemas/samples.schema.yaml")
+validate(samples, schema="../schemas/samples.schema.yaml")
 
 
 ### Set wildcard constraints
