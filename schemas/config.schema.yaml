@@ -1,0 +1,34 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: snakemake configuration file
+type: object
+properties:
+  samples:
+    type: string
+  reference:
+    type: object
+    properties:
+      fasta:
+        type: string
+    required:
+      - fasta
+  vardict:
+    type: object
+    properties:
+      bed:
+        type: string
+    required:
+      - bed
+  tools:
+    type: object
+    properties:
+      common:
+        type: string
+      gatk:
+        type: string
+      vardict:
+        type: string
+  required:
+    - samples
+    - reference
+    - vardict
+    - tools
