@@ -1,3 +1,5 @@
 **/mutect2
 **/slurm
 **/.snakemake
+**/vardict
+**/wgs_somatic_snp_viper.*

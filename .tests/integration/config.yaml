@@ -3,5 +3,10 @@ samples: "samples.tsv"
 reference:
   fasta: "reference/WASH7P.fna"
 
+vardict:
+  bed: "reference/vardict.bed"
+
 tools:
+  common: "docker://marrip/common:1.1.0"
   gatk: "docker://broadinstitute/gatk:4.2.0.0"
+  vardict: "docker://marrip/vardict:1.8.2"
