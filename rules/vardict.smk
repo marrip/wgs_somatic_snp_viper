@@ -17,19 +17,22 @@ rule vardict:
         config["tools"]["vardict"]
     message:
         "{rule}: Call short somatic variants for {wildcards.sample}"
+    threads: 4
     shell:
-        "(vardict "
+        "(VarDict "
         "-G {input.ref} "
         "-f {params.f} "
         "-N {wildcards.sample} "
         "-b {input.bam} "
-        "-c {params.c} "
+        "-c {params.c}"
         "-S {params.S} "
         "-E {params.E} "
         "-g {params.g} "
+        "-th {threads} "
         "{input.bed} | "
         "teststrandbias.R | "
         "var2vcf_valid.pl "
+        "-A "
         "-N {wildcards.sample} "
         "-E "
         "-f {params.f} > {output}) &> {log}"
