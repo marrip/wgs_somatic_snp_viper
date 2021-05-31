@@ -44,7 +44,6 @@ gsutil cp gs://genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembl
 - If those resources are not available for your reference you may generate them yourself:
 
 ```bash
-bwa index /path/to/reference.fasta
 samtools faidx /path/to/reference.fasta
 gatk CreateSequenceDictionary -R /path/to/reference.fasta -O /path/to/reference.dict
 ```
