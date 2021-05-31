@@ -1,3 +1,4 @@
+**/haplotype_caller
 **/mutect2
 **/slurm
 **/.snakemake

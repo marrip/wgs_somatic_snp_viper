@@ -33,6 +33,7 @@ wildcard_constraints:
 def compile_output_list(wildcards):
     output_list = []
     files = {
+        "haplotype_caller": ["vcf",],
         "mutect2": ["vcf",],
         "vardict": ["vcf",],
     }

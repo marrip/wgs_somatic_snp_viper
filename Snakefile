@@ -1,4 +1,5 @@
 include: "rules/common.smk"
+include: "rules/haplotype_caller.smk"
 include: "rules/mutect2.smk"
 include: "rules/vardict.smk"
 
