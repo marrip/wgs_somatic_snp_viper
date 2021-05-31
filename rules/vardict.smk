@@ -24,7 +24,7 @@ rule vardict:
         "-f {params.f} "
         "-N {wildcards.sample} "
         "-b {input.bam} "
-        "-c {params.c}"
+        "-c {params.c} "
         "-S {params.S} "
         "-E {params.E} "
         "-g {params.g} "
