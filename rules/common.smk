@@ -30,6 +30,24 @@ wildcard_constraints:
 ### Functions
 
 
+def get_loci():
+    with open(config["reference"]["loci"]) as f:
+        return [line.rstrip() for line in f]
+
+
+def get_all_vcf(wildcards):
+    return expand(
+        "analysis_output/{sample}/{tool}/{sample}_{locus}.vcf",
+        sample=wildcards.sample,
+        tool=wildcards.tool,
+        locus=get_loci(),
+    )
+
+
+def get_all_vcf_fmt(wildcards):
+    return " -I ".join(list(get_all_vcf(wildcards)))
+
+
 def compile_output_list(wildcards):
     output_list = []
     files = {

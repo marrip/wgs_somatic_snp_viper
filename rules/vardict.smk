@@ -1,10 +1,26 @@
+rule split_bed:
+    input:
+        loci=config["reference"]["loci"],
+        bed=config["vardict"]["bed"],
+    output:
+        dir=directory("analysis_output/temp/"),
+        files=temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci())),
+    log:
+        "analysis_output/temp/split_bed.log",
+    container:
+        config["tools"]["python"]
+    message:
+        "{rule}: Split VarDict bed file per chromosome"
+    script:
+        "../scripts/split_bed.py"
+
 rule vardict:
     input:
         bam="analysis_output/{sample}/gather_bam_files/{sample}.bam",
         ref=config["reference"]["fasta"],
-        bed=config["vardict"]["bed"],
+        bed="analysis_output/temp/{locus}.bed",
     output:
-        "analysis_output/{sample}/vardict/{sample}.vcf",
+        temp("analysis_output/{sample}/vardict/{sample}_{locus}.vcf"),
     params:
         f="0.01",
         c="1",
@@ -12,11 +28,11 @@ rule vardict:
         E="3",
         g="4",
     log:
-        "analysis_output/{sample}/vardict/{sample}.log",
+        "analysis_output/{sample}/vardict/{sample}_{locus}.log",
     container:
         config["tools"]["vardict"]
     message:
-        "{rule}: Call short somatic variants for {wildcards.sample}"
+        "{rule}: Call short somatic variants for {wildcards.sample} {wildcards.locus}"
     threads: 4
     shell:
         "(VarDict "
