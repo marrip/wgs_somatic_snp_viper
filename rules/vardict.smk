@@ -14,6 +14,7 @@ rule split_bed:
     script:
         "../scripts/split_bed.py"
 
+
 rule vardict:
     input:
         bam="analysis_output/{sample}/gather_bam_files/{sample}.bam",

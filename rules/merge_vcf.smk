@@ -13,10 +13,7 @@ rule merge_vcf:
     message:
         "{rule}: Concatenate {wildcards.sample} vcf files"
     shell:
-      "gatk MergeVcfs "
-      "-I {params} "
-      "-D {input.dct} "
-      "-O {output} &> {log}"
-      #"bcftools concat "
-        #"-o {output} "
-        #"{params} &> {log}"
+        "gatk MergeVcfs "
+        "-I {params} "
+        "-D {input.dct} "
+        "-O {output} &> {log}"
