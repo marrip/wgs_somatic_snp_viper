@@ -4,7 +4,7 @@ rule split_bed:
         bed=config["vardict"]["bed"],
     output:
         dir=directory("analysis_output/temp/"),
-        files=temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci())),
+        files=expand("analysis_output/temp/{locus}.bed", locus=get_loci()),
     log:
         "analysis_output/temp/split_bed.log",
     container:
@@ -21,7 +21,7 @@ rule vardict:
         ref=config["reference"]["fasta"],
         bed="analysis_output/temp/{locus}.bed",
     output:
-        temp("analysis_output/{sample}/vardict/{sample}_{locus}.vcf"),
+        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
     params:
         f="0.01",
         c="1",
