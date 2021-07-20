@@ -7,15 +7,15 @@ import re
 
 def split_bed(loci_fp, bed_fp, output_fp):
     loci = open(loci_fp, "r")
-    bed = open(bed_fp, "r")
     for locus in loci.read().splitlines():
         output = open(
             get_output_name(locus, output_fp),
             "w",
         )
+        bed = open(bed_fp, "r")
         for line in bed.read().splitlines():
-            if re.search(r"^%s" % locus, line):
-                output.writelines((line))
+            if re.search(r"^%s\t" % locus, line):
+                output.writelines((line + "\n"))
         output.close()
     return
 
