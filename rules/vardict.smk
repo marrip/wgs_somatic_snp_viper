@@ -21,7 +21,7 @@ rule vardict:
         ref=config["reference"]["fasta"],
         bed="analysis_output/temp/{locus}.bed",
     output:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
+        "analysis_output/{sample}/vardict/{sample}_{locus}.out",
     params:
         f="0.01",
         c="1",
@@ -29,7 +29,7 @@ rule vardict:
         E="3",
         g="4",
     log:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.log",
+        "analysis_output/{sample}/vardict/{sample}_{locus}.vardict.log",
     container:
         config["tools"]["vardict"]
     message:
@@ -46,10 +46,42 @@ rule vardict:
         "-E {params.E} "
         "-g {params.g} "
         "-th {threads} "
-        "{input.bed} | "
-        "teststrandbias.R | "
-        "var2vcf_valid.pl "
+        "{input.bed} > {output}) &> {log}"
+
+
+rule test_strand_bias:
+    input:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.out",
+    output:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.out",
+    log:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.log",
+    container:
+        config["tools"]["vardict"]
+    message:
+        "{rule}: Test strand bias of somatic variants for {wildcards.sample} {wildcards.locus}"
+    shell:
+        "(cat {input} |"
+        "teststrandbias.R > {output}) &> {log}"
+
+
+rule var2vcf:
+    input:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.out",
+    output:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
+    params:
+        f="0.01",
+    log:
+        "analysis_output/{sample}/vardict/{sample}_{locus}.var2vcf.log",
+    container:
+        config["tools"]["vardict"]
+    message:
+        "{rule}: Prepare vcf from vardict calls for {wildcards.sample} {wildcards.locus}"
+    shell:
+        "(var2vcf_valid.pl "
         "-A "
         "-N {wildcards.sample} "
         "-E "
-        "-f {params.f} > {output}) &> {log}"
+        "-f {params.f} "
+        "{input} > {output}) &> {log}"
