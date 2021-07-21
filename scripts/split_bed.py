@@ -5,17 +5,15 @@ import logging
 import os
 import re
 
-def split_bed(loci_fp, bed_fp, output_fp):
-    loci = open(loci_fp, "r")
-    for locus in loci.read().splitlines():
+def split_bed(bed_fp, output_fp):
+    bed = open(bed_fp, "r")
+    for line in bed.readlines():
+        locus = "%s:%s-%s" % (line.split("\t")[0], line.split("\t")[1], line.split("\t")[2])
         output = open(
             get_output_name(locus, output_fp),
             "w",
         )
-        bed = open(bed_fp, "r")
-        for line in bed.read().splitlines():
-            if re.search(r"^%s\t" % locus, line):
-                output.writelines((line + "\n"))
+        output.writelines((line))
         output.close()
     return
 
@@ -27,7 +25,6 @@ def get_output_name(locus, output_fp):
 
 logging.basicConfig(level=logging.INFO, filename=snakemake.log[0])
 split_bed(
-    snakemake.input["loci"],
     snakemake.input["bed"],
     snakemake.output["dir"],
 )

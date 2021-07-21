@@ -35,6 +35,11 @@ def get_loci():
         return [line.rstrip() for line in f]
 
 
+def get_position():
+    with open(config["vardict"]["bed"]) as f:
+        return ["%s:%s-%s" % (line.split("\t")[0], line.split("\t")[1], line.split("\t")[2]) for line in f.readlines()]
+
+
 def get_all_vcf(wildcards):
     return expand(
         "analysis_output/{sample}/{tool}/{sample}_{locus}.vcf",
@@ -45,6 +50,18 @@ def get_all_vcf(wildcards):
 
 
 def get_all_vcf_fmt(wildcards):
+    return " -I ".join(list(get_all_vcf(wildcards)))
+
+
+def get_all_vcf_vardict(wildcards):
+    return expand(
+        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
+        sample=wildcards.sample,
+        locus=get_position(),
+    )
+
+
+def get_all_vcf_fmt_vardict(wildcards):
     return " -I ".join(list(get_all_vcf(wildcards)))
 
 

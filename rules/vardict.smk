@@ -1,10 +1,9 @@
 rule split_bed:
     input:
-        loci=config["reference"]["loci"],
         bed=config["vardict"]["bed"],
     output:
         dir=directory("analysis_output/temp/"),
-        files=expand("analysis_output/temp/{locus}.bed", locus=get_loci()),
+        files=expand("analysis_output/temp/{position}.bed", position=get_position()),
     log:
         "analysis_output/temp/split_bed.log",
     container:
@@ -19,9 +18,9 @@ rule vardict:
     input:
         bam="analysis_output/{sample}/gather_bam_files/{sample}.bam",
         ref=config["reference"]["fasta"],
-        bed="analysis_output/temp/{locus}.bed",
+        bed="analysis_output/temp/{position}.bed",
     output:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.out",
+        "analysis_output/{sample}/vardict/{sample}_{position}.vcf",
     params:
         f="0.01",
         c="1",
@@ -29,7 +28,7 @@ rule vardict:
         E="3",
         g="4",
     log:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.vardict.log",
+        "analysis_output/{sample}/vardict/{sample}_{position}.log",
     container:
         config["tools"]["vardict"]
     message:
@@ -46,42 +45,31 @@ rule vardict:
         "-E {params.E} "
         "-g {params.g} "
         "-th {threads} "
-        "{input.bed} > {output}) &> {log}"
-
-
-rule test_strand_bias:
-    input:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.out",
-    output:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.out",
-    log:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.log",
-    container:
-        config["tools"]["vardict"]
-    message:
-        "{rule}: Test strand bias of somatic variants for {wildcards.sample} {wildcards.locus}"
-    shell:
-        "(cat {input} |"
-        "teststrandbias.R > {output}) &> {log}"
-
-
-rule var2vcf:
-    input:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.strand_bias.out",
-    output:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
-    params:
-        f="0.01",
-    log:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.var2vcf.log",
-    container:
-        config["tools"]["vardict"]
-    message:
-        "{rule}: Prepare vcf from vardict calls for {wildcards.sample} {wildcards.locus}"
-    shell:
-        "(var2vcf_valid.pl "
+        "{input.bed} | "
+        "teststrandbias.R | "
+        "var2vcf_valid.pl "
         "-A "
         "-N {wildcards.sample} "
         "-E "
-        "-f {params.f} "
-        "{input} > {output}) &> {log}"
+        "-f {params.f} > {output}) &> {log}"
+
+
+rule merge_vcf_vardict:
+    input:
+        dct=config["reference"]["dct"],
+        files=get_all_vcf_vardict,
+    output:
+        "analysis_output/{sample}/vardict/{sample}.vcf",
+    params:
+        get_all_vcf_fmt_vardict,
+    log:
+        "analysis_output/{sample}/vardict/{sample}.log",
+    container:
+        config["tools"]["gatk"]
+    message:
+        "{rule}: Concatenate {wildcards.sample} vcf files"
+    shell:
+        "gatk MergeVcfs "
+        "-I {params} "
+        "-D {input.dct} "
+        "-O {output} &> {log}"
