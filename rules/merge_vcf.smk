@@ -5,7 +5,7 @@ rule merge_vcf:
     output:
         "analysis_output/{sample}/{tool}/{sample}.vcf",
     params:
-        get_all_vcf_fmt,
+        get_fmt_vcf,
     log:
         "analysis_output/{sample}/{tool}/{sample}.log",
     container:
