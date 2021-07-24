@@ -2,7 +2,7 @@ rule split_bed:
     input:
         config["vardict"]["bed"],
     output:
-        expand("analysis_output/temp/{locus}.bed", locus=get_loci(config["vardict"]["bed"])),
+        temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci(config["vardict"]["bed"]))),
     log:
         "analysis_output/temp/split_bed.log",
     container:
@@ -19,7 +19,7 @@ rule vardict:
         ref=config["reference"]["fasta"],
         bed="analysis_output/temp/{locus}.bed",
     output:
-        "analysis_output/{sample}/vardict/{sample}_{locus}.vcf",
+        temp("analysis_output/{sample}/vardict/{sample}_{locus}.vcf"),
     params:
         f="0.01",
         c="1",
