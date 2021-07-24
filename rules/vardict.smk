@@ -1,16 +1,14 @@
 rule split_bed:
     input:
-        loci=config["reference"]["loci"],
-        bed=config["vardict"]["bed"],
+        config["vardict"]["bed"],
     output:
-        dir=directory("analysis_output/temp/"),
-        files=temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci())),
+        temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci(config["vardict"]["bed"]))),
     log:
         "analysis_output/temp/split_bed.log",
     container:
         config["tools"]["python"]
     message:
-        "{rule}: Split VarDict bed file per chromosome"
+        "{rule}: Split VarDict bed file by line"
     script:
         "../scripts/split_bed.py"
 

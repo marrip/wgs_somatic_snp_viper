@@ -30,22 +30,31 @@ wildcard_constraints:
 ### Functions
 
 
-def get_loci():
-    with open(config["reference"]["loci"]) as f:
-        return [line.rstrip() for line in f]
+def get_loci(loci):
+    loci_tab = pd.read_table(loci, header=None, dtype=str)
+    if len(loci_tab.columns) == 1:
+      return loci_tab[0].tolist()
+    else:
+      loci_tab["locus"] = loci_tab[0].str.cat(loci_tab[1], ":")
+      loci_tab["locus"] = loci_tab["locus"].str.cat(loci_tab[2], "-")
+      return loci_tab["locus"].tolist()
 
 
 def get_all_vcf(wildcards):
+    if wildcards.tool == "vardict":
+        locus = get_loci(config["vardict"]["bed"])
+    else:
+        locus = get_loci(config["reference"]["loci"])
     return expand(
         "analysis_output/{sample}/{tool}/{sample}_{locus}.vcf",
         sample=wildcards.sample,
         tool=wildcards.tool,
-        locus=get_loci(),
+        locus=locus,
     )
 
 
-def get_all_vcf_fmt(wildcards):
-    return " -I ".join(list(get_all_vcf(wildcards)))
+def get_fmt_vcf(wildcards):
+    return " -I ".join(get_all_vcf(wildcards))
 
 
 def compile_output_list(wildcards):
