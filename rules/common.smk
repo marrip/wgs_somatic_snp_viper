@@ -60,9 +60,15 @@ def get_fmt_vcf(wildcards):
 def compile_output_list(wildcards):
     output_list = []
     files = {
-        "haplotype_caller": ["vcf",],
-        "mutect2": ["vcf",],
-        "vardict": ["vcf",],
+        "haplotype_caller": [
+            "vcf",
+        ],
+        "mutect2": [
+            "vcf",
+        ],
+        "vardict": [
+            "vcf",
+        ],
     }
     for key in files.keys():
         output_list = output_list + expand(
