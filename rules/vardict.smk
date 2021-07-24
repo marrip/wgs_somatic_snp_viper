@@ -2,7 +2,12 @@ rule split_bed:
     input:
         config["vardict"]["bed"],
     output:
-        temp(expand("analysis_output/temp/{locus}.bed", locus=get_loci(config["vardict"]["bed"]))),
+        temp(
+            expand(
+                "analysis_output/temp/{locus}.bed",
+                locus=get_loci(config["vardict"]["bed"]),
+            )
+        ),
     log:
         "analysis_output/temp/split_bed.log",
     container:

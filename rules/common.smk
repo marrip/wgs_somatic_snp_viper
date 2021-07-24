@@ -33,11 +33,11 @@ wildcard_constraints:
 def get_loci(loci):
     loci_tab = pd.read_table(loci, header=None, dtype=str)
     if len(loci_tab.columns) == 1:
-      return loci_tab[0].tolist()
+        return loci_tab[0].tolist()
     else:
-      loci_tab["locus"] = loci_tab[0].str.cat(loci_tab[1], ":")
-      loci_tab["locus"] = loci_tab["locus"].str.cat(loci_tab[2], "-")
-      return loci_tab["locus"].tolist()
+        loci_tab["locus"] = loci_tab[0].str.cat(loci_tab[1], ":")
+        loci_tab["locus"] = loci_tab["locus"].str.cat(loci_tab[2], "-")
+        return loci_tab["locus"].tolist()
 
 
 def get_all_vcf(wildcards):
