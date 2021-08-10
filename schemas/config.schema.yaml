@@ -11,6 +11,16 @@ properties:
         type: string
     required:
       - fasta
+  mutect2:
+    type: object
+    properties:
+      gnomad:
+        type: string
+      pon:
+        type: string
+    required:
+      - gnomad
+      - pon
   vardict:
     type: object
     properties:
@@ -30,5 +40,6 @@ properties:
   required:
     - samples
     - reference
+    - mutect2
     - vardict
     - tools

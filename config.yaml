@@ -1,9 +1,14 @@
 samples: "samples.tsv"
+units: "units.tsv"
 
 reference:
   fasta: ""
   dct: ""
   loci: ""
+
+mutect2:
+  gnomad: ""
+  pon: ""
 
 vardict:
   bed: ""
