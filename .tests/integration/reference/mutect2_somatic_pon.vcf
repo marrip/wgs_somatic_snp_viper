@@ -1,0 +1,8 @@
+##fileformat=VCFv4.2
+##GATKCommandLine=<ID=CreateSomaticPanelOfNormals,CommandLine="CreateSomaticPanelOfNormals --output analysis_output/pon/mutect2_somatic_pon.vcf --germline-resource /Users/marri543/Repositories/wgs_somatic_pon/.tests/integration/reference/af-only-gnomad.vcf --variant gendb://analysis_output/pon/mutect2_somatic_pon --reference reference/WASH7P.fna --min-sample-count 2 --max-germline-probability 0.5 --interval-set-rule UNION --interval-padding 0 --interval-exclusion-padding 0 --interval-merging-rule ALL --read-validation-stringency SILENT --seconds-between-progress-updates 10.0 --disable-sequence-dictionary-validation false --create-output-bam-index true --create-output-bam-md5 false --create-output-variant-index true --create-output-variant-md5 false --lenient false --add-output-sam-program-record true --add-output-vcf-command-line true --cloud-prefetch-buffer 40 --cloud-index-prefetch-buffer -1 --disable-bam-index-caching false --sites-only-vcf-output false --help false --version false --showHidden false --verbosity INFO --QUIET false --use-jdk-deflater false --use-jdk-inflater false --gcs-max-retries 20 --gcs-project-for-requester-pays  --disable-tool-default-read-filters false",Version="4.2.0.0",Date="July 27, 2021 1:33:14 PM GMT">
+##INFO=<ID=BETA,Number=2,Type=Float,Description="Beta distribution parameters to fit artifact allele fractions">
+##INFO=<ID=FRACTION,Number=1,Type=Float,Description="Fraction of samples exhibiting artifact">
+##contig=<ID=chr1,length=15009>
+##normal_sample=NA12878
+##source=CreateSomaticPanelOfNormals
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO

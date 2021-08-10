@@ -1,9 +1,14 @@
 samples: "samples.tsv"
+units: "units.tsv"
 
 reference:
   fasta: "reference/WASH7P.fna"
   dct: "reference/WASH7P.dict"
   loci: "reference/WASH7P.loci.txt"
+
+mutect2:
+  gnomad: "reference/af-only-gnomad.vcf"
+  pon: "reference/mutect2_somatic_pon.vcf"
 
 vardict:
   bed: "reference/vardict.bed"
