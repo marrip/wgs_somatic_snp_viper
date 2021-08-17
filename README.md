@@ -99,8 +99,8 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 
 ### PoN for mutect2 is available
 
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_pon/main/images/rulegraph_with_pon.svg)
+![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_pon/prep-t-n/images/rulegraph_with_pon.svg)
 
 ### PoN for mutect2 is missing
 
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_pon/main/images/rulegraph_without_pon.svg)
+![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_pon/prep-t-n/images/rulegraph_without_pon.svg)
