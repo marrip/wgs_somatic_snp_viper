@@ -3,7 +3,7 @@ rule mutect2:
         unpack(get_bam),
         ref=config["reference"]["fasta"],
         gnomad=config["mutect2"]["gnomad"],
-        pon=config["mutect2"]["pon"],
+        pon=check_mutect2_pon(),
     output:
         vcf=temp("analysis_output/{sample}/mutect2/{sample}_{locus}.vcf"),
         stats=temp("analysis_output/{sample}/mutect2/{sample}_{locus}.vcf.stats"),

@@ -1,9 +1,13 @@
 samples: "samples.tsv"
 units: "units.tsv"
 
+modules:
+  wgs_somatic_pon: "1.0.0"
+
 reference:
-  fasta: ""
   dct: ""
+  fasta: ""
+  intervals: ""
   loci: ""
 
 mutect2:
@@ -14,6 +18,7 @@ vardict:
   bed: ""
 
 tools:
+  cnvkit: "docker://marrip/cnvkit:0.9.9"
   common: "docker://marrip/common:1.1.0"
   gatk: "docker://broadinstitute/gatk:4.2.0.0"
   python: "docker://python:3.10-rc-slim-buster"

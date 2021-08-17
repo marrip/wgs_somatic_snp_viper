@@ -4,13 +4,31 @@ type: object
 properties:
   samples:
     type: string
+  units:
+    type: string
+  modules:
+    type: object
+    properties:
+      wgs_somatic_pon:
+        type: string
+    required:
+      - wgs_somatic_pon
   reference:
     type: object
     properties:
+      dct:
+        type: string
       fasta:
         type: string
+      intervals:
+        type: string
+      loci:
+        type: string
     required:
+      - dct
       - fasta
+      - intervals
+      - loci
   mutect2:
     type: object
     properties:
@@ -31,14 +49,20 @@ properties:
   tools:
     type: object
     properties:
+      cnvkit:
+        type: string
       common:
         type: string
       gatk:
+        type: string
+      python:
         type: string
       vardict:
         type: string
   required:
     - samples
+    - units
+    - modules
     - reference
     - mutect2
     - vardict

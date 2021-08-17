@@ -3,7 +3,7 @@ from snakemake.exceptions import WorkflowError
 from snakemake.utils import validate
 from snakemake.utils import min_version
 
-min_version("5.32.0")
+min_version("6.0.0")
 
 ### Set and validate config file
 
@@ -39,6 +39,16 @@ wildcard_constraints:
     sample="|".join(samples.index),
 
 
+### Import subworkflows
+
+
+module wgs_somatic_pon:
+    snakefile: "https://github.com/marrip/wgs_somatic_pon/raw/%s/workflow/Snakefile" % config["modules"]["wgs_somatic_pon"]
+    config: config
+
+use rule * from wgs_somatic_pon as wgs_somatic_pon_*
+
+
 ### Functions
 
 
@@ -70,6 +80,13 @@ def get_bam(wildcards):
         }
     else:
         raise WorkflowError("%s is not paired with a tumor sample" % wildcards.sample)
+
+
+def check_mutect2_pon():
+    if config["mutect2"]["pon"] == "":
+        return "analysis_output/pon/mutect2_somatic_pon.vcf"
+    else:
+        return config["mutect2"]["pon"]
 
 
 def get_mutect2_fmt_input(wildcards):
