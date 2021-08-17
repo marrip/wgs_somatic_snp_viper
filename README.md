@@ -7,7 +7,7 @@ Simple workflow to call short variants in somatic whole genome data
 
 ## :speech_balloon: Introduction
 
-This snakemake workflow takes `.bam files`, which were prepped according to
+This snakemake workflow takes `.bam` files, which were prepped according to
 [GATK best practices](https://gatk.broadinstitute.org/hc/en-us/articles/360035535912-Data-pre-processing-for-variant-discovery),
 and calls SNVs and small Indels. The workflow can process tumor samples
 paired with normals or be run as a tumor-only analysis.
