@@ -16,7 +16,7 @@ jobs:
         uses: snakemake/snakemake-github-action@v1.17.0
         with:
           directory: ".tests/integration"
-          snakefile: "Snakefile"
+          snakefile: "workflow/Snakefile"
           args: "--dry-run"
   snakefmt:
     name: Lint Code Base
@@ -53,4 +53,4 @@ jobs:
       working-directory: .tests/integration
       run: |
         mamba install -c conda-forge -c bioconda snakemake singularity
-        snakemake -s ../../Snakefile -j 1 --use-singularity
+        snakemake -s ../../workflow/Snakefile -j 1 --use-singularity
