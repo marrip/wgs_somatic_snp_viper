@@ -39,6 +39,9 @@ To run this workflow, the following tools need to be available:
 2. Add sample type information, normal or tumor, to `units.tsv`.
 3. Use the `analysis_output` folder from
 [wgs_std_viper](https://github.com/marrip/wgs_std_viper) as input.
+4. If a PoN was not created earlier, use the  `analysis_output`
+folder from
+[wgs_somatic_pon](https://github.com/marrip/wgs_somatic_pon) as input.
 
 ### Reference data
 
@@ -63,17 +66,16 @@ gatk CreateSequenceDictionary -R /path/to/reference.fasta -O /path/to/reference.
 
 2. A VarDict `.bed` file containing all these genomic regions, which Vardict should
 call variants in. The regions should be split by 5 MBp or less.
-3. Mutect2 requires an `.interval_list` file to create a panel of normals (PoN).
-For GRCh38, the file is also available in the google bucket. If you already have
-a PoN you can simply leave `""` instead.
-4. If a PoN is available indicate that in the `config.yaml`. 
-5. Mutect2 also requires a modified  [gnomad database](https://gnomad.broadinstitute.org/) 
+3. Mutect2 requires a panel of normals (PoN) which should be supplied. If you do not
+have a PoN you can simply leave `""` instead to link the workflow to the output
+from [wgs_somatic_pon](https://github.com/marrip/wgs_somatic_pon).
+4. Mutect2 also requires a modified  [gnomad database](https://gnomad.broadinstitute.org/) 
 as a `.vcf.gz`. For GRCh38, the file can be retrieved from
 [google cloud](https://console.cloud.google.com/storage/browser/gatk-best-practices/somatic-hg38;tab=objects?prefix=&forceOnObjectsSortingFiltering=false)
 as described under 1.
-6. Add the paths of the different files to the `config.yaml`. The index files should be
+5. Add the paths of the different files to the `config.yaml`. The index files should be
 in the same directory as the reference `.fasta`.
-7. Make sure that the docker container versions are correct.
+6. Make sure that the docker container versions are correct.
 
 ## :white_check_mark: Testing
 
@@ -95,10 +97,4 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 
 ## :judge: Rule Graph
 
-### PoN for mutect2 is available
-
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/main/images/rulegraph_with_pon.svg)
-
-### PoN for mutect2 is missing
-
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/main/images/rulegraph_without_pon.svg)
+![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/main/images/rulegraph.svg)
