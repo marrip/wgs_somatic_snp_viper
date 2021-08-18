@@ -1,13 +1,9 @@
 samples: "samples.tsv"
 units: "units.tsv"
 
-modules:
-  wgs_somatic_pon: "1.0.0"
-
 reference:
   dct: "reference/WASH7P.dict"
   fasta: "reference/WASH7P.fna"
-  intervals: "reference/WASH7P.interval_list"
   loci: "reference/WASH7P.loci.txt"
 
 mutect2:
@@ -19,7 +15,5 @@ vardict:
 
 tools:
   common: "docker://marrip/common:1.1.0"
-  cnvkit: "docker://marrip/cnvkit:0.9.9"
   gatk: "docker://broadinstitute/gatk:4.2.0.0"
-  python: "docker://python:3.10-rc-slim-buster"
   vardict: "docker://marrip/vardict:1.8.2"

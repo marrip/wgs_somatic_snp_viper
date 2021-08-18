@@ -39,16 +39,6 @@ wildcard_constraints:
     sample="|".join(samples.index),
 
 
-### Import subworkflows
-
-
-module wgs_somatic_pon:
-    snakefile: "https://github.com/marrip/wgs_somatic_pon/raw/%s/workflow/Snakefile" % config["modules"]["wgs_somatic_pon"]
-    config: config
-
-use rule * from wgs_somatic_pon as wgs_somatic_pon_*
-
-
 ### Functions
 
 
@@ -154,9 +144,7 @@ def get_v2v_cmd(wildcards):
             wildcards.sample,
         )
     else:
-        return "var2vcf_valid.pl -N %s_T -E" % (
-            wildcards.sample,
-        )
+        return "var2vcf_valid.pl -N %s_T -E" % wildcards.sample
 
 
 def compile_output_list(wildcards):
