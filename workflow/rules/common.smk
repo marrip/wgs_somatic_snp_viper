@@ -39,21 +39,6 @@ wildcard_constraints:
     sample="|".join(samples.index),
 
 
-### Import subworkflows
-
-
-module wgs_somatic_pon:
-    snakefile:
-        "https://github.com/marrip/wgs_somatic_pon/raw/%s/workflow/Snakefile" % config[
-            "modules"
-        ]["wgs_somatic_pon"]
-    config:
-        config
-
-
-use rule * from wgs_somatic_pon as wgs_somatic_pon_*
-
-
 ### Functions
 
 

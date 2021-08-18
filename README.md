@@ -28,9 +28,7 @@ Calling variants with VarDict is performed as as indicated in the respective
 To run this workflow, the following tools need to be available:
 
 ![python](https://img.shields.io/badge/python-3.8-blue)
-
 [![snakemake](https://img.shields.io/badge/snakemake-5.32.0-blue)](https://snakemake.readthedocs.io/en/stable/)
-
 [![singularity](https://img.shields.io/badge/singularity-3.7-blue)](https://sylabs.io/docs/)
 
 ## :school_satchel: Preparations
@@ -99,8 +97,8 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 
 ### PoN for mutect2 is available
 
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/prep-t-n/images/rulegraph_with_pon.svg)
+![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/main/images/rulegraph_with_pon.svg)
 
 ### PoN for mutect2 is missing
 
-![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/prep-t-n/images/rulegraph_without_pon.svg)
+![rule_graph](https://raw.githubusercontent.com/marrip/wgs_somatic_snp_viper/main/images/rulegraph_without_pon.svg)

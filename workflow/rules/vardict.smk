@@ -1,26 +1,7 @@
-rule split_bed:
-    input:
-        config["vardict"]["bed"],
-    output:
-        expand(
-            "analysis_output/temp/{locus}.bed",
-            locus=get_loci(config["vardict"]["bed"]),
-        ),
-    log:
-        "analysis_output/temp/split_bed.log",
-    container:
-        config["tools"]["python"]
-    message:
-        "{rule}: Split VarDict bed file by line"
-    script:
-        "../scripts/split_bed.py"
-
-
 rule vardict:
     input:
         unpack(get_bam),
         ref=config["reference"]["fasta"],
-        bed="analysis_output/temp/{locus}.bed",
     output:
         temp("analysis_output/{sample}/vardict/{sample}_{locus}.vcf"),
     params:
@@ -51,7 +32,7 @@ rule vardict:
         -E {params.E} \
         -g {params.g} \
         -th {threads} \
-        {input.bed} | \
+        -R {wildcards.locus} | \
         {params.test} | \
         {params.v2v} \
         -A \
