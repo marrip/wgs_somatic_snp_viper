@@ -32,7 +32,13 @@ validate(units, schema="../schemas/units.schema.yaml")
 
 ### Generate modus dictionary
 
-modus = units[["sample", "unit"]].drop_duplicates().reset_index(drop=True).groupby("sample").unit
+modus = (
+    units[["sample", "unit"]]
+    .drop_duplicates()
+    .reset_index(drop=True)
+    .groupby("sample")
+    .unit
+)
 modus = pd.concat([modus.apply("".join)], axis=1, keys=["modus"]).to_dict()["modus"]
 
 
