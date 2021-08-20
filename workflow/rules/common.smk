@@ -25,14 +25,14 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 units = (
     pd.read_table(config["units"], dtype=str)
     .sort_values(["sample", "unit"], ascending=False)
-    .set_index(["sample", "unit", "run", "lane"], drop=False)
+    .set_index(["sample", "unit"], drop=False)
 )
 validate(units, schema="../schemas/units.schema.yaml")
 
 
 ### Generate modus dictionary
 
-modus = units.drop_duplicates().groupby("sample").unit
+modus = units[["sample", "unit"]].drop_duplicates().reset_index(drop=True).groupby("sample").unit
 modus = pd.concat([modus.apply("".join)], axis=1, keys=["modus"]).to_dict()["modus"]
 
 
