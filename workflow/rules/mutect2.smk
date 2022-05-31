@@ -36,7 +36,7 @@ rule merge_vcfs:
             locus=get_loci(config["reference"]["loci"]),
         ),
     output:
-        "analysis_output/{sample}/mutect2/{sample}.vcf",
+        "analysis_output/{sample}/mutect2/{sample}.unfiltered.vcf",
     params:
         lambda wildcards, input: " -I ".join(input),
     log:
@@ -159,7 +159,7 @@ rule merge_mutect_stats:
             locus=get_loci(config["reference"]["loci"]),
         ),
     output:
-        "analysis_output/{sample}/mutect2/{sample}.vcf.stats",
+        "analysis_output/{sample}/mutect2/{sample}.unfiltered.vcf.stats",
     params:
         lambda wildcards, input: " -stats ".join(input),
     log:
@@ -178,15 +178,15 @@ rule merge_mutect_stats:
 
 rule filter_mutect_calls:
     input:
-        vcf="analysis_output/{sample}/mutect2/{sample}.vcf",
+        vcf="analysis_output/{sample}/mutect2/{sample}.unfiltered.vcf",
         ref=config["reference"]["fasta"],
         tsv="analysis_output/{sample}/mutect2/{sample}.tsv",
         seg="analysis_output/{sample}/mutect2/{sample}.seg",
         f1r2="analysis_output/{sample}/mutect2/{sample}.f1r2.tar.gz",
-        stats="analysis_output/{sample}/mutect2/{sample}.vcf.stats",
+        stats="analysis_output/{sample}/mutect2/{sample}.unfiltered.vcf.stats",
     output:
-        vcf="analysis_output/{sample}/mutect2/{sample}.filtered.vcf",
-        stats="analysis_output/{sample}/mutect2/{sample}.filtered.vcf.stats",
+        vcf="analysis_output/{sample}/mutect2/{sample}.vcf",
+        stats="analysis_output/{sample}/mutect2/{sample}.vcf.stats",
     log:
         "analysis_output/{sample}/mutect2/filter_mutect_calls.log",
     container:
